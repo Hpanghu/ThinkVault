@@ -1,0 +1,17 @@
+ThinkVault 项目简介
+
+ThinkVault 是一个个人 AI 工作台，旨在将本地文档转化为可对话的知识库。
+
+核心功能：
+1. 本地模型推理
+2. 文档上传和解析
+3. 文档问答（RAG）
+4. 知识库管理
+
+技术栈：
+- 后端：Python + FastAPI
+- 推理引擎：llama.cpp
+- 向量数据库：ChromaDB
+- Embedding: bge-small-zh
+
+本项目不会将任何数据上传到云端，所有处理均在本地完成。

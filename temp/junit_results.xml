@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="19" skipped="0" tests="19" time="41.411" timestamp="2026-06-01T05:29:52.259439+08:00" hostname="DESKTOP-K7TSCIV"><testcase classname="test.test_v2.TestServerV2" name="test_api_root" time="2.038"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:18: in test_api_root
+    r = requests.get(f"{BASE}/api/hardware", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestServerV2" name="test_api_conversations_empty" time="2.058"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:23: in test_api_conversations_empty
+    r = requests.get(f"{BASE}/api/conversations", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_create_conversation" time="2.033"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:32: in test_create_conversation
+    r = requests.post(f"{BASE}/api/conversations", json={"title": "Test会话"}, timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_get_conversation_404" time="2.045"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:43: in test_get_conversation_404
+    r = requests.get(f"{BASE}/api/conversations/nonexistent-id", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_delete_conversation_404" time="2.034"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:47: in test_delete_conversation_404
+    r = requests.delete(f"{BASE}/api/conversations/nonexistent-id", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:180: in delete
+    return request("delete", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations/nonexistent-id (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_list_conversations" time="2.038"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:52: in test_list_conversations
+    r1 = requests.post(f"{BASE}/api/conversations", json={"title": "列表测试A"})
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_conversation_messages_persist" time="2.035"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:70: in test_conversation_messages_persist
+    r = requests.post(f"{BASE}/api/conversations", json={"title": "持久化测试"})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestConversationAPI" name="test_rename_conversation" time="2.045"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:91: in test_rename_conversation
+    r = requests.post(f"{BASE}/api/conversations", json={"title": "原始名称"})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestSSEStreaming" name="test_chat_stream_returns_sse" time="2.042"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:106: in test_chat_stream_returns_sse
+    r = requests.post(f"{BASE}/api/chat/stream", json={
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestSSEStreaming" name="test_chat_stream_creates_conversation" time="2.063"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:127: in test_chat_stream_creates_conversation
+    r = requests.post(f"{BASE}/api/chat/stream", json={
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat/stream (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestSSEStreaming" name="test_chat_stream_with_existing_conv" time="2.044"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:150: in test_chat_stream_with_existing_conv
+    r = requests.post(f"{BASE}/api/conversations", json={"title": "追加测试"})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/conversations (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestPDFSupport" name="test_upload_pdf" time="2.045"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=v2_pdf_test (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=v2_pdf_test (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:190: in test_upload_pdf
+    r = requests.post(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=v2_pdf_test (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestPDFSupport" name="test_unsupported_format_rejected" time="2.046"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:209: in test_unsupported_format_rejected
+    r = requests.post(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestModelAPI" name="test_model_info" time="2.030"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/model (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/model (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:222: in test_model_info
+    r = requests.get(f"{BASE}/api/model", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/model (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestModelAPI" name="test_hardware_info" time="2.046"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:227: in test_hardware_info
+    r = requests.get(f"{BASE}/api/hardware", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/hardware (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestFullRegression" name="test_chat_basic" time="2.036"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:238: in test_chat_basic
+    r = requests.post(f"{BASE}/api/chat", json={
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestFullRegression" name="test_document_upload_txt" time="2.045"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=regression (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=regression (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:252: in test_document_upload_txt
+    r = requests.post(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:134: in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents/upload?knowledge_base=regression (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestFullRegression" name="test_document_list_delete" time="2.032"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:272: in test_document_list_delete
+    r = requests.get(f"{BASE}/api/documents", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/documents (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase><testcase classname="test.test_v2.TestFullRegression" name="test_knowledge_bases" time="2.041"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/knowledge-bases (Caused by NewConnectionError(&quot;HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。&quot;))">E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:204: in _new_conn
+    sock = connection.create_connection(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:85: in create_connection
+    raise err
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\connection.py:73: in create_connection
+    sock.connect(sa)
+E   ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:788: in urlopen
+    response = self._make_request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:493: in _make_request
+    conn.request(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:500: in request
+    self.endheaders()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1293: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:1052: in _send_output
+    self.send(msg)
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\http\client.py:990: in send
+    self.connect()
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:331: in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connection.py:219: in _new_conn
+    raise NewConnectionError(
+E   urllib3.exceptions.NewConnectionError: HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+The above exception was the direct cause of the following exception:
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\connectionpool.py:842: in urlopen
+    retries = retries.increment(
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\urllib3\util\retry.py:543: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/knowledge-bases (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+
+During handling of the above exception, another exception occurred:
+F:\ThinkVault\test\test_v2.py:277: in test_knowledge_bases
+    r = requests.get(f"{BASE}/api/knowledge-bases", timeout=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:87: in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\api.py:71: in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\Lib\site-packages\requests\adapters.py:729: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/knowledge-bases (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))</failure></testcase></testsuite></testsuites>

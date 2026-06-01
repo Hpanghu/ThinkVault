@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  # 推理后端 — Ollama（OpenAI 兼容 API）
+  # 如需使用外部 Ollama，注释此服务并设置 THINKVAULT_LLM_URL 环境变量
+  ollama:
+    image: ollama/ollama:latest
+    container_name: thinkvault-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # GPU: 取消下行注释并安装 nvidia-container-toolkit
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+    # 首次启动后需要手动拉取模型：
+    #   docker exec -it thinkvault-ollama ollama pull llama3.2:1b
+
+  thinkvault:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: thinkvault:2.0.0
+    container_name: thinkvault
+    ports:
+      - "8000:8000"
+    environment:
+      - THINKVAULT_DATA_DIR=/data
+      # 推理后端（指向 Ollama sidecar）
+      - THINKVAULT_LLM_URL=http://ollama:11434/v1
+      - THINKVAULT_LLM_MODEL=${THINKVAULT_LLM_MODEL:-llama3.2:1b}
+      # API Token（可选，留空则不启用认证）
+      - THINKVAULT_API_TOKEN=${THINKVAULT_API_TOKEN:-}
+      # CORS 白名单
+      - THINKVAULT_CORS_ORIGINS=${THINKVAULT_CORS_ORIGINS:-http://localhost:8000}
+      # 速率限制
+      - THINKVAULT_RATE_LIMIT=${THINKVAULT_RATE_LIMIT:-60}
+      - THINKVAULT_RATE_WINDOW=${THINKVAULT_RATE_WINDOW:-60}
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    # GPU 支持：取消下行注释并安装 nvidia-container-toolkit
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  ollama_data:
+    driver: local

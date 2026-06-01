@@ -1,0 +1,35 @@
+# ThinkVault 依赖清单
+# 基础安装：pip install -r requirements.txt
+# GPU 加速：pip install -r requirements.txt（torch 已包含 CUDA 支持，安装时选对应版本）
+# 注：gguf-chat 为本地依赖包，需从项目仓库获取 wheel 或安装源码
+# 参见 README.md 中「依赖安装」章节
+
+# ===================== 核心依赖 =====================
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.0
+pymupdf>=1.24.0
+python-docx>=1.1.0
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+rank-bm25>=0.2.2
+psutil>=5.9.0
+aiofiles>=24.0.0
+python-multipart>=0.0.9
+torch>=2.0.0,<3.0.0
+httpx>=0.27.0
+
+# ===================== 可选依赖 =====================
+# OCR 识别（扫描件 PDF / 图片文字提取）
+# paddleocr>=2.8.0
+# rapidocr-onnxruntime>=1.3.0
+
+# PPT 解析（.pptx 文件支持）
+# python-pptx>=0.6.0
+
+# Excel 解析（.xlsx / .xlsm 文件支持）
+# openpyxl>=3.1.0
+
+# ===================== 开发/测试依赖 =====================
+# pytest>=8.0
+# requests>=2.31

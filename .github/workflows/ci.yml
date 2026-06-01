@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check thinkvault/
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]"
+          pip install pytest-cov
+      - name: Run unit tests
+        run: |
+          pytest test/test_unit_cli.py test/test_unit_conversation_store.py \
+            test/test_unit_db.py test/test_unit_document_store.py \
+            test/test_unit_embedder.py test/test_unit_llm.py \
+            test/test_parser.py test/test_parser_mock.py test/test_chunker.py \
+            test/test_retriever.py test/test_retriever_extended.py \
+            test/test_retriever_coverage.py test/test_storage.py \
+            test/test_hardware.py test/test_llm_extended.py \
+            test/test_llm_coverage.py test/test_audit_fixes.py \
+            test/test_audit_fixes_round2.py \
+            -v --tb=short --cov=thinkvault --cov-report=term-missing

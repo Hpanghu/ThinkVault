@@ -1,0 +1,15 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.11.8, pytest-9.0.3, pluggy-1.6.0 -- E:\Program Files\Tencent\Marvis\MarvisAgent\1.0.1100.170\runtime\python311\python.exe
+cachedir: .pytest_cache
+rootdir: F:\ThinkVault
+configfile: pyproject.toml
+plugins: anyio-4.13.0
+collecting ... collected 19 items
+
+test/test_v2.py::TestServerV2::test_api_root PASSED                      [  5%]
+test/test_v2.py::TestServerV2::test_api_conversations_empty PASSED       [ 10%]
+test/test_v2.py::TestConversationAPI::test_create_conversation PASSED    [ 15%]
+test/test_v2.py::TestConversationAPI::test_get_conversation_404 PASSED   [ 21%]
+test/test_v2.py::TestConversationAPI::test_delete_conversation_404 PASSED [ 26%]
+test/test_v2.py::TestConversationAPI::test_list_conversations PASSED     [ 31%]
+test/test_v2.py::TestConversationAPI::test_conversation_messages_persist FAILED [ 36%]
