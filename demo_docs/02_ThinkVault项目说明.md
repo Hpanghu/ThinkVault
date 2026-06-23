@@ -56,7 +56,7 @@ open http://localhost:8000
 ## 技术栈
 
 - **后端**：Python 3.10+, FastAPI, Uvicorn
-- **推理后端**：Ollama (OpenAI 兼容), BGE (sentence-transformers)
+- **推理后端**：llama-cpp-python server (OpenAI 兼容), BGE (sentence-transformers)
 - **存储**：ChromaDB (向量), SQLite (元数据)
 - **前端**：原生 HTML/CSS/JS (无框架依赖)
 

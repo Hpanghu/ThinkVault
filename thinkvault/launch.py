@@ -1,6 +1,6 @@
 """
 ThinkVault V2.0 一键启动脚本
-自动检查依赖、推理后端（Ollama），启动后端服务并打开浏览器
+自动检查依赖、推理后端（llama-cpp-python server），启动后端服务并打开浏览器
 """
 
 import os
@@ -55,28 +55,11 @@ def check_dependencies():
         print("  通过: 所有关键依赖已安装")
 
 
-def check_ollama():
-    """检测 Ollama 推理后端是否可用"""
-    print("[3/4] 检查推理后端 (Ollama)...")
+def check_llm_backend():
+    """检测推理后端（llama-cpp-python server）是否可用"""
+    print("[3/4] 检查推理后端 (llama-cpp-python server)...")
 
-    url = os.environ.get("THINKVAULT_LLM_URL", "http://localhost:11434/v1")
-
-    try:
-        import urllib.request
-        # 尝试 Ollama 原生 API: GET /api/tags
-        ollama_url = url.replace("/v1", "") + "/api/tags"
-        req = urllib.request.Request(ollama_url, method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            if resp.status == 200:
-                import json as _json
-                data = _json.loads(resp.read().decode())
-                models = data.get("models", [])
-                if models:
-                    names = [m["name"] for m in models]
-                    print(f"  通过: Ollama 已运行，可用模型: {', '.join(names[:5])}")
-                    return
-    except Exception:
-        pass
+    url = os.environ.get("THINKVAULT_LLM_URL", "http://localhost:8080/v1")
 
     # 尝试 OpenAI 兼容端点
     try:
@@ -94,10 +77,10 @@ def check_ollama():
         pass
 
     print(f"  警告: 无法连接推理后端 ({url})")
-    print(f"  请确认 Ollama 已安装并运行：")
-    print(f"    1. 安装: winget install Ollama 或 https://ollama.com/download")
-    print(f"    2. 拉取模型: ollama pull llama3.2:1b")
-    print(f"    3. 启动 Ollama（默认监听 http://localhost:11434）")
+    print(f"  请确认 llama-cpp-python server 已安装并运行：")
+    print(f"    1. 安装: pip install 'llama-cpp-python[server]'")
+    print(f"    2. 下载模型到 ~/.thinkvault/models/ 目录")
+    print(f"    3. 启动: python -m llama_cpp.server --model ~/.thinkvault/models/xxx.gguf --port 8080")
     print(f"  服务仍将启动，但对话将降级为仅检索模式。")
 
 
@@ -108,7 +91,7 @@ def main():
 
     check_python()
     check_dependencies()
-    check_ollama()
+    check_llm_backend()
 
     print("[4/4] 启动服务...")
     print(f"  后端: http://{SERVER_HOST}:{SERVER_PORT}")

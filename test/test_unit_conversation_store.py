@@ -12,7 +12,7 @@ import pytest
 from thinkvault.core.conversation_store import (
     create_conversation, list_conversations, get_conversation,
     update_conversation, delete_conversation,
-    add_message, get_messages, delete_messages, _store,
+    add_message, get_messages, delete_messages, _instance,
 )
 from thinkvault.core.db import SqliteStore
 
@@ -21,10 +21,7 @@ from thinkvault.core.db import SqliteStore
 def cleanup():
     yield
     # 确保关闭所有连接
-    global _store
-    if _store is not None:
-        _store.close()
-        _store = None
+    _instance.close()
     import gc
     gc.collect()
     db_path = Path.home() / ".thinkvault" / "conversations.db"

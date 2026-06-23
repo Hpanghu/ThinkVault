@@ -156,33 +156,24 @@ def test_llm_safe_device_unload():
 
 
 def test_llm_generate_not_loaded():
-    """P2: generate 在无后端时返回错误而非崩溃"""
+    """P2: generate 在无后端时抛出 LLMServiceError 而非崩溃"""
     import asyncio
-    from thinkvault.core.thinkvault_llm import ThinkVaultLLM, _build_messages
+    from thinkvault.core.thinkvault_llm import ThinkVaultLLM, LLMServiceError, _build_messages
 
     async def run():
         llm = ThinkVaultLLM()
         messages = _build_messages("system", [], "test")
-        answer, stats = await llm.generate(messages, max_new_tokens=32)
-        return answer, stats
+        try:
+            answer, stats = await llm.generate(messages, max_new_tokens=32)
+            return answer, stats
+        except LLMServiceError as e:
+            return None, {"error": str(e), "error_type": e.error_type}
 
     answer, stats = asyncio.run(run())
-    assert isinstance(answer, str)
-    assert isinstance(stats, dict)
-    print(f"[PASS] P2: 无后端 generate 返回错误")
+    assert stats.get("error_type") == "connection_refused"
+    print(f"[PASS] P2: 无后端 generate 抛出 LLMServiceError")
 
 
-def test_format_chat_prompt():
-    """格式验证"""
-    from thinkvault.core.thinkvault_llm import format_chat_prompt
-
-    prompt = format_chat_prompt("你是助手", "你好")
-    assert "<|start_header_id|>system<|end_header_id|>" in prompt
-    assert "<|start_header_id|>user<|end_header_id|>" in prompt
-    assert "你是助手" in prompt
-    assert "你好" in prompt
-    assert prompt.endswith("<|start_header_id|>assistant<|end_header_id|>\n\n")
-    print(f"[PASS] P2: Chat 模板格式正确")
 
 
 # ============================== XSS 防护验证 ==============================
@@ -264,7 +255,6 @@ if __name__ == "__main__":
     # P2
     test_llm_safe_device_unload()
     test_llm_generate_not_loaded()
-    test_format_chat_prompt()
     test_kb_name_special_chars()
 
     print("=" * 60)

@@ -67,7 +67,7 @@ class TestPDFMock:
     def test_basic(self):
         dummy = _create_dummy(".pdf")
         try:
-            pages = [_make_pdf_page("第一章概述"), _make_pdf_page("第二章细节"), _make_pdf_page("第三章总结")]
+            pages = [_make_pdf_page("第一章概述" + "测试内容填充" * 10), _make_pdf_page("第二章细节" + "测试内容填充" * 10), _make_pdf_page("第三章总结" + "测试内容填充" * 10)]
 
             mock_doc = MagicMock()
             mock_doc.__len__ = lambda self: 3

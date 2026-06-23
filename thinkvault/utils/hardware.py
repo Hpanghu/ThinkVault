@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 class HardwareProfile:
     os_name: str = ""
     cpu_count: int = 0
+    cpu_name: str = ""
     total_ram_gb: float = 0.0
     available_ram_gb: float = 0.0
     gpu_name: str = ""
@@ -45,8 +46,10 @@ class HardwareProfile:
 def detect_hardware() -> HardwareProfile:
     """检测当前机器硬件配置"""
     profile = HardwareProfile()
-    profile.os_name = f"Windows"
-    profile.cpu_count = psutil.cpu_count(logical=True)
+    import platform
+    profile.os_name = platform.system()
+    profile.cpu_count = psutil.cpu_count(logical=True) or 0
+    profile.cpu_name = platform.processor()
     mem = psutil.virtual_memory()
     profile.total_ram_gb = round(mem.total / (1024 ** 3), 1)
     profile.available_ram_gb = round(mem.available / (1024 ** 3), 1)
@@ -75,28 +78,33 @@ def detect_hardware() -> HardwareProfile:
     return profile
 
 
+def recommend_model_tier(profile: HardwareProfile) -> str:
+    """独立函数：根据硬件配置返回推荐模型档位"""
+    return profile.recommended_model_tier
+
+
 MODEL_TIER_RECOMMENDATIONS = {
     "light": {
         "models": [
-            {"name": "llama3.2:1b", "url": "https://ollama.com/library/llama3.2:1b", "size": "~1.3GB"},
-            {"name": "qwen3:1.8b", "url": "https://ollama.com/library/qwen3:1.8b", "size": "~1.3GB"},
+            {"name": "qwen2.5-0.5b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf", "size": "~0.4GB"},
+            {"name": "qwen2.5-1.5b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf", "size": "~1.0GB"},
         ],
     },
     "medium": {
         "models": [
-            {"name": "qwen3:7b", "url": "https://ollama.com/library/qwen3:7b", "size": "~4.7GB"},
-            {"name": "deepseek-r1:7b", "url": "https://ollama.com/library/deepseek-r1:7b", "size": "~4.7GB"},
+            {"name": "qwen2.5-3b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf", "size": "~2.0GB"},
+            {"name": "qwen2.5-7b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q4_k_m.gguf", "size": "~4.7GB"},
         ],
     },
     "high": {
         "models": [
-            {"name": "qwen3:14b", "url": "https://ollama.com/library/qwen3:14b", "size": "~9GB"},
-            {"name": "deepseek-r1:14b", "url": "https://ollama.com/library/deepseek-r1:14b", "size": "~9GB"},
+            {"name": "qwen2.5-14b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-14B-Instruct-GGUF/resolve/main/qwen2.5-14b-instruct-q4_k_m.gguf", "size": "~9GB"},
+            {"name": "qwen2.5-7b-instruct-q8_0.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q8_0.gguf", "size": "~8GB"},
         ],
     },
     "ultra": {
         "models": [
-            {"name": "qwen3:32b", "url": "https://ollama.com/library/qwen3:32b", "size": "~20GB"},
+            {"name": "qwen2.5-32b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-GGUF/resolve/main/qwen2.5-32b-instruct-q4_k_m.gguf", "size": "~20GB"},
         ],
     },
 }

@@ -1,2 +1,0 @@
-2026-06-01 04:14:43 | ERROR   | thinkvault | sentence-transformers 未安装
-INFO:     127.0.0.1:54953 - "GET /api/health HTTP/1.1" 500 Internal Server Error

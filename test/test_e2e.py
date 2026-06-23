@@ -57,7 +57,7 @@ def load_llm():
         print(f"  ✅ LLM 后端已就绪: {llm.model}")
         return llm
     else:
-        print("  ❌ LLM 后端不可用，请确保 Ollama 已运行")
+        print("  ❌ LLM 后端不可用，请确保 llama-cpp-python server 已运行")
         return None
 
 

@@ -23,17 +23,16 @@ COPY requirements.txt pyproject.toml ./
 RUN pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir python-pptx openpyxl
 
-# 复制应用代码
+# 复制应用代码和数据文件
 COPY thinkvault/ ./thinkvault/
-
 # 创建数据持久化目录
 RUN mkdir -p /data/chroma /data/uploads /data/conversations
 
 # 推理后端说明：
-# ThinkVault 使用 OpenAI 兼容 API 模式，推理由外部 Ollama 提供。
-# 方式一：同一容器网络内运行 Ollama sidecar（见 docker-compose.yml）
-# 方式二：指向外部 Ollama 地址（设置 THINKVAULT_LLM_URL 环境变量）
-# 默认 URL: http://localhost:11434/v1
+# ThinkVault 使用 OpenAI 兼容 API 模式，推理由外部 llama-cpp-python server 提供。
+# 方式一：同一容器网络内运行 llama-cpp-python sidecar（见 docker-compose.yml）
+# 方式二：指向外部推理服务地址（设置 THINKVAULT_LLM_URL 环境变量）
+# 默认 URL: http://llama-cpp:8080/v1
 
 # 暴露 API 端口
 EXPOSE 8000
@@ -41,12 +40,17 @@ EXPOSE 8000
 # 环境变量
 ENV PYTHONUNBUFFERED=1
 ENV THINKVAULT_DATA_DIR=/data
-ENV THINKVAULT_LLM_URL=http://ollama:11434/v1
-ENV THINKVAULT_LLM_MODEL=llama3.2:1b
+ENV THINKVAULT_LLM_URL=http://llama-cpp:8080/v1
+ENV THINKVAULT_LLM_MODEL=default
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8000/api/health || exit 1
+
+# 非 root 用户运行
+RUN useradd -m -u 1000 thinkvault && \
+    chown -R thinkvault:thinkvault /app /data
+USER thinkvault
 
 # 启动
 CMD ["python", "-m", "thinkvault.cli", "serve", "--host", "0.0.0.0", "--port", "8000"]

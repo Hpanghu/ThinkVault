@@ -82,10 +82,10 @@ def test_cross_encoder_success():
 # ── BM25 ───────────────────────────────────────────────────────
 
 def test_get_bm25_import_error():
-    """rank-bm25 未安装时返回 None"""
+    """BM25 库均未安装时返回 None"""
     from thinkvault.core.retriever import Retriever
     r = Retriever()
-    with patch.dict("sys.modules", {"rank_bm25": None}):
+    with patch.dict("sys.modules", {"rank_bm25": None, "bm25s": None}):
         result = r._get_bm25("test_kb")
         assert result is None
         assert "test_kb" in r._bm25_cache

@@ -66,19 +66,22 @@ class TestB17AsyncClientLifecycle:
 
     def test_generate_after_loop_close_recovers(self):
         """多次 asyncio.run() 调用 generate，不应永久失败"""
-        from thinkvault.core.thinkvault_llm import ThinkVaultLLM
+        from thinkvault.core.thinkvault_llm import ThinkVaultLLM, LLMServiceError
 
         llm = ThinkVaultLLM()
 
         messages = [{"role": "user", "content": "say hi"}]
 
         async def _call():
-            answer, stats = await llm.generate(messages, max_new_tokens=10)
-            return answer, stats
+            try:
+                answer, stats = await llm.generate(messages, max_new_tokens=10)
+                return answer, stats
+            except LLMServiceError as e:
+                return None, {"error": str(e), "error_type": e.error_type}
 
         # 第一次调用（预期连接失败，但不 crash）
         answer1, stats1 = asyncio.run(_call())
-        assert "[错误]" in answer1 or "error" in stats1
+        assert "error" in stats1
 
         # 第二次调用：先关闭 client（模拟事件循环切换）
         try:
@@ -88,7 +91,7 @@ class TestB17AsyncClientLifecycle:
 
         # 第三次调用（应重建 client 后继续，即使仍然连不上）
         answer2, stats2 = asyncio.run(_call())
-        assert "[错误]" in answer2 or "error" in stats2
+        assert "error" in stats2
 
 
 # ── B18: container.unload_all 资源清理 ───────────────────────────

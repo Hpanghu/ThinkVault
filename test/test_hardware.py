@@ -41,7 +41,7 @@ def test_recommendation_table():
         for model in MODEL_TIER_RECOMMENDATIONS[tier]["models"]:
             assert "name" in model
             assert "url" in model
-            assert "ollama.com" in model["url"]
+            assert "huggingface.co" in model["url"]
     print(f"[PASS] 推荐表完整性: 4 个档位, 各含 {[len(MODEL_TIER_RECOMMENDATIONS[t]['models']) for t in ['light','medium','high','ultra']]}")
 
 

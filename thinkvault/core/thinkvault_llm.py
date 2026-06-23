@@ -1,7 +1,7 @@
 """
 ThinkVault LLM 集成模块 — OpenAI 兼容 API 模式
 
-基于 httpx 调用外部推理后端（Ollama / OpenAI / 兼容 API），
+基于 httpx 调用外部推理后端（llama-cpp-python server / OpenAI / 兼容 API），
 将 HTTP SSE 流式响应封装为与旧 gguf-chat 接口一致的 async 生成器。
 
 ThinkVault 专注 RAG（文档解析→检索→上下文组装），推理交给标准 OpenAI API。
@@ -17,23 +17,14 @@ from typing import Optional, List, Tuple, Dict, Any
 import httpx
 
 from thinkvault.utils.logger import logger
-
-# ---------------------------------------------------------------------------
-# Chat 模板（可选，部分后端需要）
-# ---------------------------------------------------------------------------
-
-CHAT_TEMPLATE = (
-    "<|begin_of_text|>"
-    "<|start_header_id|>system<|end_header_id|>\n\n{system}<|eot_id|>"
-    "<|start_header_id|>user<|end_header_id|>\n\n{user}<|eot_id|>"
-    "<|start_header_id|>assistant<|end_header_id|>\n\n"
-)
+from thinkvault.utils.security import validate_url_for_ssrf
 
 
-def format_chat_prompt(system: str, user: str) -> str:
-    """使用 Llama 3.2 Chat 模板组装 prompt（兼容需要完整 prompt 字符串的后端）"""
-    return CHAT_TEMPLATE.format(system=system, user=user)
-
+class LLMServiceError(Exception):
+    """LLM 服务调用异常"""
+    def __init__(self, message: str, error_type: str = "unknown"):
+        super().__init__(message)
+        self.error_type = error_type
 
 # ---------------------------------------------------------------------------
 # ThinkVault LLM — OpenAI 兼容 API 模式
@@ -42,12 +33,17 @@ def format_chat_prompt(system: str, user: str) -> str:
 class ThinkVaultLLM:
     """基于 httpx 的 OpenAI 兼容 API 推理器
 
-    默认后端: Ollama (http://localhost:11434/v1)
+    默认后端: llama-cpp-python server (http://localhost:8080/v1)
     支持任意兼容 OpenAI Chat Completions API 的服务。
     """
 
-    def __init__(self, base_url: str = "http://localhost:11434/v1", model: str = "llama3.2:1b", api_key: Optional[str] = None):
-        self._base_url = base_url.rstrip("/")
+    def __init__(self, base_url: str = "http://localhost:8080/v1", model: str = "default", api_key: Optional[str] = None):
+        try:
+            safe_url = validate_url_for_ssrf(base_url)
+            self._base_url = safe_url.rstrip("/")
+        except ValueError as e:
+            logger.warning(f"SSRF 防护拒绝 base_url: {base_url}，使用默认值")
+            self._base_url = "http://localhost:8080/v1"
         self._model = model
         self._api_key = api_key
         self._client: Optional[httpx.AsyncClient] = None
@@ -94,7 +90,7 @@ class ThinkVaultLLM:
                 try:
                     await self._client.aclose()
                 except Exception:
-                    pass
+                    logger.debug("关闭旧 httpx 客户端失败", exc_info=True)
                 self._client = None
 
             if self._client is None:
@@ -107,6 +103,40 @@ class ThinkVaultLLM:
                     timeout=httpx.Timeout(30.0, connect=3.0),
                 )
         return self._client
+
+    async def _recover_client(self, error: RuntimeError) -> None:
+        """事件循环关闭时重建 httpx 客户端
+
+        当 httpx client 绑定到已关闭的事件循环时，丢弃旧引用并重建新客户端，
+        使后续 _get_client() 调用自动获取有效客户端。
+        """
+        if "Event loop is closed" in str(error):
+            logger.warning("检测到事件循环关闭，重建 HTTP 客户端")
+            self._client = None
+            await self._get_client()
+        else:
+            raise
+
+    async def reconfigure(self, base_url: str = "", model: str = "", api_key: str = "") -> None:
+        """更新 LLM 客户端配置（base_url / model / api_key），关闭旧客户端使下次请求自动重建"""
+        updated = False
+        if base_url and base_url != self._base_url:
+            try:
+                safe_url = validate_url_for_ssrf(base_url)
+                self._base_url = safe_url.rstrip("/")
+                updated = True
+            except ValueError as e:
+                logger.warning(f"SSRF 防护拒绝 base_url: {base_url}，忽略此更新")
+        if model:
+            self._model = model
+            updated = True
+        if api_key != self._api_key:
+            self._api_key = api_key or None
+            updated = True
+        if updated:
+            # 关闭旧客户端，下次 _get_client() 会用新配置重建
+            await self.close()
+            self._is_available = False
 
     async def close(self) -> None:
         """关闭持久化 httpx 客户端，释放连接池资源
@@ -122,33 +152,41 @@ class ThinkVaultLLM:
                     await client.aclose()
                 except RuntimeError:
                     # 事件循环已关闭，无法正常 aclose，安全丢弃引用
-                    pass
+                    logger.debug("关闭 httpx 客户端时事件循环已关闭", exc_info=True)
                 except Exception:
-                    pass
+                    logger.debug("关闭 httpx 客户端失败", exc_info=True)
             logger.info("ThinkVaultLLM HTTP 客户端已关闭")
 
+    # ---- 可用性状态管理（公共接口） ----
+
+    def mark_unavailable(self) -> None:
+        """标记后端不可用（供外部调用方使用）"""
+        self._is_available = False
+
+    def mark_available(self) -> None:
+        """标记后端可用"""
+        self._is_available = True
+
+    def is_backend_available(self) -> bool:
+        """检查后端是否可用（公共接口）"""
+        return self._is_available
+
+    async def check_availability(self) -> bool:
+        """通过 GET /models 检查后端可用性（公共接口，封装 _check_availability）"""
+        return await self._check_availability()
+
     async def _check_availability(self) -> bool:
-        """通过 GET /v1/models 检查后端可用性"""
+        """通过 GET /models 检查后端可用性（base_url 已含 /v1 前缀，使用相对路径）"""
         try:
             client = await self._get_client()
-            # Ollama 兼容端点：GET /api/tags 或 GET /v1/models
-            # 优先尝试 OpenAI 标准端点
-            resp = await client.get("/v1/models", timeout=3.0)
+            # 使用相对路径 "models"，httpx 会解析为 base_url + "/models"
+            # 例如 base_url="http://localhost:8080/v1" → "http://localhost:8080/v1/models"
+            resp = await client.get("models", timeout=3.0)
             if resp.status_code == 200:
                 self._is_available = True
                 return True
         except Exception:
-            pass
-
-        # 尝试 Ollama 原生端点
-        try:
-            async with httpx.AsyncClient(timeout=3.0) as client:
-                resp = await client.get(self._base_url.replace("/v1", "") + "/api/tags")
-                if resp.status_code == 200:
-                    self._is_available = True
-                    return True
-        except Exception:
-            pass
+            logger.debug("检查 LLM 后端可用性失败", exc_info=True)
 
         self._is_available = False
         return False
@@ -196,13 +234,9 @@ class ThinkVaultLLM:
             try:
                 resp = await client.post(url, headers=headers, json=payload)
             except RuntimeError as e:
-                if "Event loop is closed" in str(e):
-                    # httpx client 绑定到已关闭的事件循环 → 丢弃并重建
-                    self._client = None
-                    client = await self._get_client()
-                    resp = await client.post(url, headers=headers, json=payload)
-                else:
-                    raise
+                await self._recover_client(e)
+                client = await self._get_client()
+                resp = await client.post(url, headers=headers, json=payload)
             resp.raise_for_status()
             data = resp.json()
 
@@ -222,17 +256,14 @@ class ThinkVaultLLM:
             return text.strip(), stats
 
         except httpx.ConnectError:
-            logger.error("连接推理后端失败，请确认 Ollama 是否运行")
-            return (
-                "[错误] 无法连接推理后端，请确认 Ollama 已安装并运行：\n"
-                "  1. 安装 Ollama: https://ollama.com/download\n"
-                "  2. 拉取模型: ollama pull llama3.2:1b\n"
-                "  3. 启动 Ollama（默认监听 http://localhost:11434）",
-                {"error": "connection_refused"},
+            logger.error("连接推理后端失败，请确认 llama-cpp-python server 是否运行")
+            raise LLMServiceError(
+                "无法连接推理后端，请确认 llama-cpp-python server 已安装并运行",
+                error_type="connection_refused",
             )
         except Exception as e:
             logger.error(f"LLM 推理异常: {e}")
-            return f"[错误] 推理异常: {e}", {"error": str(e)}
+            raise LLMServiceError(f"推理异常: {e}", error_type="inference_error") from e
 
     async def generate_stream(
         self,
@@ -267,77 +298,63 @@ class ThinkVaultLLM:
         input_tokens = 0
         output_tokens = 0
 
+        async def _stream_with_client(client: httpx.AsyncClient):
+            """使用指定客户端执行流式请求，yield 每个 token chunk"""
+            async with client.stream("POST", url, headers=headers, json=payload) as resp:
+                resp.raise_for_status()
+                async for line in resp.aiter_lines():
+                    if not line.startswith("data: "):
+                        continue
+                    data_str = line[6:]
+                    if data_str.strip() == "[DONE]":
+                        break
+                    try:
+                        chunk = json.loads(data_str)
+                        delta = chunk["choices"][0].get("delta", {})
+                        token = delta.get("content", "")
+                        if token:
+                            yield {"token": token, "done": False, "stats": None}
+                        # 有些后端在 chunk 中返回 usage
+                        usage = chunk.get("usage", {})
+                        if usage:
+                            yield {"_input_tokens": usage.get("prompt_tokens", 0), "_output_tokens": usage.get("completion_tokens", 0)}
+                    except (json.JSONDecodeError, KeyError):
+                        continue
+
         try:
             client = await self._get_client()
             try:
-                async with client.stream("POST", url, headers=headers, json=payload) as resp:
-                    resp.raise_for_status()
-                    async for line in resp.aiter_lines():
-                        if not line.startswith("data: "):
-                            continue
-                        data_str = line[6:]
-                        if data_str.strip() == "[DONE]":
-                            break
-                        try:
-                            chunk = json.loads(data_str)
-                            delta = chunk["choices"][0].get("delta", {})
-                            token = delta.get("content", "")
-                            if token:
-                                full_text += token
-                                yield {"token": token, "done": False, "stats": None}
-
-                            # 有些后端在 chunk 中返回 usage
-                            usage = chunk.get("usage", {})
-                            if usage:
-                                input_tokens = usage.get("prompt_tokens", input_tokens)
-                                output_tokens = usage.get("completion_tokens", output_tokens)
-                        except (json.JSONDecodeError, KeyError):
-                            continue
+                async for item in _stream_with_client(client):
+                    if "_input_tokens" in item:
+                        input_tokens = item["_input_tokens"]
+                        output_tokens = item["_output_tokens"]
+                    elif item.get("token"):
+                        full_text += item["token"]
+                        yield item
             except RuntimeError as e:
-                if "Event loop is closed" in str(e):
-                    self._client = None
-                    client = await self._get_client()
-                    async with client.stream("POST", url, headers=headers, json=payload) as resp:
-                        resp.raise_for_status()
-                        async for line in resp.aiter_lines():
-                            if not line.startswith("data: "):
-                                continue
-                            data_str = line[6:]
-                            if data_str.strip() == "[DONE]":
-                                break
-                            try:
-                                chunk = json.loads(data_str)
-                                delta = chunk["choices"][0].get("delta", {})
-                                token = delta.get("content", "")
-                                if token:
-                                    full_text += token
-                                    yield {"token": token, "done": False, "stats": None}
-                                usage = chunk.get("usage", {})
-                                if usage:
-                                    input_tokens = usage.get("prompt_tokens", input_tokens)
-                                    output_tokens = usage.get("completion_tokens", output_tokens)
-                            except (json.JSONDecodeError, KeyError):
-                                continue
-                else:
-                    raise
+                await self._recover_client(e)
+                client = await self._get_client()
+                async for item in _stream_with_client(client):
+                    if "_input_tokens" in item:
+                        input_tokens = item["_input_tokens"]
+                        output_tokens = item["_output_tokens"]
+                    elif item.get("token"):
+                        full_text += item["token"]
+                        yield item
 
         except httpx.ConnectError:
-            logger.error("连接推理后端失败，请确认 Ollama 是否运行")
+            logger.error("连接推理后端失败，请确认 llama-cpp-python server 是否运行")
             yield {
-                "token": (
-                    "[错误] 无法连接推理后端，请确认 Ollama 已安装并运行：\n"
-                    "  1. 安装 Ollama: https://ollama.com/download\n"
-                    "  2. 拉取模型: ollama pull llama3.2:1b\n"
-                    "  3. 启动 Ollama（默认监听 http://localhost:11434）"
-                ),
+                "token": "[错误] 无法连接推理后端，请确认服务已启动",
                 "done": True,
                 "stats": {"error": "connection_refused"},
             }
             return
+        except LLMServiceError:
+            raise
         except Exception as e:
             logger.error(f"LLM 流式推理异常: {e}")
-            yield {"token": f"[错误] 推理异常: {e}", "done": True, "stats": {"error": str(e)}}
-            return
+            raise LLMServiceError(f"流式推理异常: {e}", error_type="stream_error") from e
 
         elapsed = time.time() - t0
         stats = {

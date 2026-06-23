@@ -35,7 +35,7 @@ class TextChunker:
         self.config = config or ChunkConfig()
         self.config.validate()
 
-    def chunk_document(self, parsed_doc) -> list[TextChunk]:
+    def chunk_document(self, parsed_doc, doc_id: str = "") -> list[TextChunk]:
         """对解析后的文档进行分块，保留页面/段落元信息"""
         chunks = []
         raw_text = parsed_doc.raw_text
@@ -60,6 +60,7 @@ class TextChunker:
                     metadata={
                         "file_path": parsed_doc.file_path,
                         "file_type": parsed_doc.file_type,
+                        "doc_id": doc_id,
                     },
                 ))
                 chunk_index += 1

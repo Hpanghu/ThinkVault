@@ -73,7 +73,11 @@ def test_format_context_max_chars():
 def test_tokenize_chinese_only():
     retriever = Retriever()
     tokens = retriever._tokenize("卷积神经网络")
-    assert tokens == ["卷", "积", "神", "经", "网", "络"]
+    # jieba 分词产生词语级别 token（如 "卷积", "神经网络"）
+    assert len(tokens) > 0
+    assert all(isinstance(t, str) for t in tokens)
+    # jieba 应将 "卷积神经网络" 拆分为有意义的词
+    assert "卷积" in tokens or "神经网络" in tokens
 
 
 def test_tokenize_english_only():
@@ -85,16 +89,17 @@ def test_tokenize_english_only():
 def test_tokenize_mixed():
     retriever = Retriever()
     tokens = retriever._tokenize("CNN卷积网络")
-    assert tokens == ["cnn", "卷", "积", "网", "络"]
+    # jieba 分词：cnn + 中文词
+    assert "cnn" in tokens
+    assert len(tokens) > 1  # 至少有中文部分
 
 
 def test_tokenize_with_punctuation():
     retriever = Retriever()
     tokens = retriever._tokenize("Hello, 世界!")
-    # 标点符号作为独立 token 保留（中文路径行为）
     assert "hello" in tokens
-    assert "世" in tokens
-    assert "界" in tokens
+    # jieba 将 "世界" 作为一个词
+    assert "世界" in tokens
 
 
 def test_tokenize_empty():
@@ -106,7 +111,9 @@ def test_tokenize_empty():
 def test_tokenize_numbers():
     retriever = Retriever()
     tokens = retriever._tokenize("ResNet50模型")
-    assert tokens == ["resnet50", "模", "型"]
+    assert "resnet50" in tokens
+    # jieba 将 "模型" 作为一个词
+    assert "模型" in tokens
 
 
 # ── 意图判断测试 (纯关键词路径，不依赖 embedder) ─────────────

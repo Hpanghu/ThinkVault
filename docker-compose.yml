@@ -1,15 +1,16 @@
 version: "3.9"
 
 services:
-  # 推理后端 — Ollama（OpenAI 兼容 API）
-  # 如需使用外部 Ollama，注释此服务并设置 THINKVAULT_LLM_URL 环境变量
-  ollama:
-    image: ollama/ollama:latest
-    container_name: thinkvault-ollama
+  # 推理后端 — llama-cpp-python server（OpenAI 兼容 API）
+  # 如需使用外部推理服务，注释此服务并设置 THINKVAULT_LLM_URL 环境变量
+  llama-cpp:
+    image: ghcr.io/abetlen/llama-cpp-python:latest
+    container_name: thinkvault-llama-cpp
     ports:
-      - "11434:11434"
+      - "127.0.0.1:8080:8080"
     volumes:
-      - ollama_data:/root/.ollama
+      - ./models:/models
+    command: ["--model", "/models/model.gguf", "--host", "0.0.0.0", "--port", "8080"]
     # GPU: 取消下行注释并安装 nvidia-container-toolkit
     # deploy:
     #   resources:
@@ -19,8 +20,8 @@ services:
     #           count: 1
     #           capabilities: [gpu]
     restart: unless-stopped
-    # 首次启动后需要手动拉取模型：
-    #   docker exec -it thinkvault-ollama ollama pull llama3.2:1b
+    # 首次使用需要将 GGUF 模型放入 ./models/ 目录：
+    #   cp ~/.thinkvault/models/xxx.gguf ./models/model.gguf
 
   thinkvault:
     build:
@@ -29,21 +30,23 @@ services:
     image: thinkvault:2.0.0
     container_name: thinkvault
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     environment:
       - THINKVAULT_DATA_DIR=/data
-      # 推理后端（指向 Ollama sidecar）
-      - THINKVAULT_LLM_URL=http://ollama:11434/v1
-      - THINKVAULT_LLM_MODEL=${THINKVAULT_LLM_MODEL:-llama3.2:1b}
-      # API Token（可选，留空则不启用认证）
-      - THINKVAULT_API_TOKEN=${THINKVAULT_API_TOKEN:-}
+      # 推理后端（指向 llama-cpp-python sidecar）
+      - THINKVAULT_LLM_URL=http://llama-cpp:8080/v1
+      - THINKVAULT_LLM_MODEL=${THINKVAULT_LLM_MODEL:-default}
+      # ⚠️ 生产环境必须设置 API Token！启动时会校验
+      - THINKVAULT_API_TOKEN=${THINKVAULT_API_TOKEN:?必须设置 API Token}
       # CORS 白名单
       - THINKVAULT_CORS_ORIGINS=${THINKVAULT_CORS_ORIGINS:-http://localhost:8000}
       # 速率限制
       - THINKVAULT_RATE_LIMIT=${THINKVAULT_RATE_LIMIT:-60}
       - THINKVAULT_RATE_WINDOW=${THINKVAULT_RATE_WINDOW:-60}
     depends_on:
-      - ollama
+      - llama-cpp
+    volumes:
+      - thinkvault_data:/data
     restart: unless-stopped
     # GPU 支持：取消下行注释并安装 nvidia-container-toolkit
     # deploy:
@@ -55,5 +58,5 @@ services:
     #           capabilities: [gpu]
 
 volumes:
-  ollama_data:
+  thinkvault_data:
     driver: local

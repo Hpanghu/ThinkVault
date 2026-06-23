@@ -1,0 +1,14 @@
+test/
+dist/
+build/
+logs/
+temp/
+output/
+__pycache__/
+*.pyc
+.git/
+.env
+*.egg-info/
+demo_docs/
+docs/
+scripts/

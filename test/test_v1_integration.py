@@ -3,7 +3,7 @@ ThinkVault V1.0 集成测试
 验证完整链路: 服务启动 → 文档上传 → 聊天 → 文档列表 → 文档删除
 
 运行方式:
-    cd F:\AAone
+    cd D:/ThinkVault
     python -m pytest test\test_v1_integration.py -v
 
 或直接运行:
@@ -21,20 +21,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
-from fastapi.testclient import TestClient
 from thinkvault.core.container import container
 
 
 # ============================== Fixtures ==============================
-
-@pytest.fixture(scope="module")
-def client():
-    """创建 TestClient，模拟 FastAPI 应用（进程内测试无需 API Token 认证）"""
-    os.environ["THINKVAULT_DISABLE_AUTH"] = "1"
-    from thinkvault.api.server import create_app
-    app = create_app()
-    with TestClient(app) as c:
-        yield c
+# client fixture 已移至 conftest.py，所有集成测试共享
 
 
 @pytest.fixture
@@ -175,9 +166,10 @@ class TestDocumentList:
         resp = client.get("/api/documents")
         assert resp.status_code == 200
         data = resp.json()
-        assert isinstance(data, list)
+        assert "documents" in data
+        assert isinstance(data["documents"], list)
         # 至少应有之前上传的文档
-        for doc in data:
+        for doc in data["documents"]:
             assert "id" in doc
             assert "file_name" in doc
             assert "file_type" in doc
@@ -188,7 +180,8 @@ class TestDocumentList:
         resp = client.get("/api/documents?knowledge_base=test_kb")
         assert resp.status_code == 200
         data = resp.json()
-        assert isinstance(data, list)
+        assert "documents" in data
+        assert isinstance(data["documents"], list)
 
 
 class TestDeleteDocument:
@@ -198,7 +191,7 @@ class TestDeleteDocument:
         """删除已存在的文档"""
         # 先获取文档列表
         list_resp = client.get("/api/documents")
-        docs = list_resp.json()
+        docs = list_resp.json()["documents"]
 
         if not docs:
             pytest.skip("没有可删除的文档")
@@ -237,7 +230,7 @@ class TestChat:
         """有文档时的 RAG 对话 — 需要先确保有文档已索引"""
         # 检查是否有已索引文档
         list_resp = client.get("/api/documents")
-        docs = list_resp.json()
+        docs = list_resp.json()["documents"]
 
         if not docs:
             # 没有文档时先上传一个
@@ -275,20 +268,22 @@ class TestKnowledgeBase:
         resp = client.get("/api/knowledge-bases")
         assert resp.status_code == 200
         data = resp.json()
-        assert isinstance(data, list)
+        assert "knowledge_bases" in data
 
 
 class TestModelManagement:
     """模型管理测试"""
 
     def test_load_model_detects_backend(self, client):
-        """检测推理后端可用性（当前 Ollama 运行中应返回 ok）"""
+        """检测推理后端可用性（需要 llama-cpp-python server 运行中，否则跳过）"""
         resp = client.post(
             "/api/model/load",
-            json={"model_path": "http://localhost:11434/v1"},
+            json={"model_path": os.environ.get("THINKVAULT_LLM_URL", "http://localhost:8080/v1")},
         )
         assert resp.status_code == 200
         data = resp.json()
+        if data["status"] == "error":
+            pytest.skip("LLM 后端不可用，跳过模型加载测试")
         assert data["status"] == "ok"
         assert container.thinkvault_llm.is_loaded
 

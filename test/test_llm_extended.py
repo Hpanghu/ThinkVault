@@ -26,8 +26,8 @@ def test_init_with_custom_params():
     assert llm.is_loaded is False
 
     # trailing slash stripped
-    llm2 = ThinkVaultLLM(base_url="http://localhost:11434/v1/")
-    assert llm2.base_url == "http://localhost:11434/v1"
+    llm2 = ThinkVaultLLM(base_url="http://localhost:8080/v1/")
+    assert llm2.base_url == "http://localhost:8080/v1"
 
 
 # ── _build_messages ──────────────────────────────────────────
@@ -142,7 +142,7 @@ async def test_check_availability_fails_both():
 
 @pytest.mark.asyncio
 async def test_generate_connect_error():
-    from thinkvault.core.thinkvault_llm import ThinkVaultLLM
+    from thinkvault.core.thinkvault_llm import ThinkVaultLLM, LLMServiceError
     import httpx
 
     llm = ThinkVaultLLM()
@@ -153,14 +153,14 @@ async def test_generate_connect_error():
         )
         mock_get.return_value = mock_client
 
-        text, stats = await llm.generate([{"role": "user", "content": "test"}])
-        assert "[错误]" in text
-        assert "connection_refused" in stats.get("error", "")
+        with pytest.raises(LLMServiceError) as exc_info:
+            await llm.generate([{"role": "user", "content": "test"}])
+        assert "connection_refused" in exc_info.value.error_type
 
 
 @pytest.mark.asyncio
 async def test_generate_general_error():
-    from thinkvault.core.thinkvault_llm import ThinkVaultLLM
+    from thinkvault.core.thinkvault_llm import ThinkVaultLLM, LLMServiceError
 
     llm = ThinkVaultLLM()
     with patch.object(llm, "_get_client") as mock_get:
@@ -168,15 +168,16 @@ async def test_generate_general_error():
         mock_client.post.side_effect = ValueError("unexpected format")
         mock_get.return_value = mock_client
 
-        text, stats = await llm.generate([{"role": "user", "content": "test"}])
-        assert "[错误]" in text
-        assert "unexpected format" in stats.get("error", "")
+        with pytest.raises(LLMServiceError) as exc_info:
+            await llm.generate([{"role": "user", "content": "test"}])
+        assert "unexpected format" in str(exc_info.value)
 
 
 # ── generate_stream 错误路径 ─────────────────────────────────
 
 @pytest.mark.asyncio
 async def test_generate_stream_connect_error():
+    """ConnectError 时 generate_stream yield 错误 chunk"""
     from thinkvault.core.thinkvault_llm import ThinkVaultLLM
     import httpx
 
@@ -190,15 +191,16 @@ async def test_generate_stream_connect_error():
         async for chunk in llm.generate_stream([{"role": "user", "content": "test"}]):
             results.append(chunk)
 
-        assert len(results) == 1
-        assert results[0]["done"] is True
-        assert "[错误]" in results[0]["token"]
-        assert "connection_refused" in results[0]["stats"].get("error", "")
+        assert len(results) >= 1
+        # ConnectError 时 yield 错误 chunk（而非 raise LLMServiceError）
+        error_chunks = [c for c in results if c.get("done") and c.get("stats", {}).get("error")]
+        assert len(error_chunks) >= 1
+        assert "connection_refused" in error_chunks[0]["stats"]["error"]
 
 
 @pytest.mark.asyncio
 async def test_generate_stream_general_error():
-    from thinkvault.core.thinkvault_llm import ThinkVaultLLM
+    from thinkvault.core.thinkvault_llm import ThinkVaultLLM, LLMServiceError
 
     llm = ThinkVaultLLM()
     with patch.object(llm, "_get_client") as mock_get:
@@ -206,12 +208,10 @@ async def test_generate_stream_general_error():
         mock_client.stream.side_effect = KeyError("missing field")
         mock_get.return_value = mock_client
 
-        results = []
-        async for chunk in llm.generate_stream([{"role": "user", "content": "test"}]):
-            results.append(chunk)
-
-        assert results[0]["done"] is True
-        assert "[错误]" in results[0]["token"]
+        with pytest.raises(LLMServiceError) as exc_info:
+            async for _ in llm.generate_stream([{"role": "user", "content": "test"}]):
+                pass
+        assert "stream_error" in exc_info.value.error_type
 
 
 # ── generate_async / generate_stream_async 兼容接口 ─────────
@@ -255,19 +255,9 @@ async def test_generate_stream_async_wraps_stream():
 def test_properties():
     from thinkvault.core.thinkvault_llm import ThinkVaultLLM
     llm = ThinkVaultLLM()
-    assert llm.model == "llama3.2:1b"
-    assert llm.base_url == "http://localhost:11434/v1"
-
-
-# ── format_chat_prompt ───────────────────────────────────────
-
-def test_format_chat_prompt_empty():
-    from thinkvault.core.thinkvault_llm import format_chat_prompt
-    prompt = format_chat_prompt("", "")
-    assert "<|begin_of_text|>" in prompt
-    assert "<|start_header_id|>system<|end_header_id|>" in prompt
-    assert "<|start_header_id|>user<|end_header_id|>" in prompt
+    assert llm.model == "default"
+    assert llm.base_url == "http://localhost:8080/v1"
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "-s", "--asyncio-mode=auto"])
+    pytest.main([__file__, "-v", "-s"])

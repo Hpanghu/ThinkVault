@@ -1,6 +1,6 @@
 """
 扩展测试：thinkvault_llm.py 覆盖率从 66% → 80%+
-补充：is_loaded True、_check_availability Ollama 回退、generate 成功、
+补充：is_loaded True、_check_availability 失败路径、generate 成功、
 generate_stream 成功路径、generate_async/stream_async、close 兜底
 """
 
@@ -22,10 +22,10 @@ def test_is_loaded_when_available():
     assert llm.is_loaded is True
 
 
-# ── _check_availability Ollama 回退 ──────────────────────────
+# ── _check_availability 失败路径 ──────────────────────────
 
 @pytest.mark.asyncio
-async def test_check_availability_v1_fails_ollama_succeeds():
+async def test_check_availability_v1_fails_returns_false():
     from thinkvault.core.thinkvault_llm import ThinkVaultLLM
     import httpx
 
@@ -34,23 +34,11 @@ async def test_check_availability_v1_fails_ollama_succeeds():
     mock_client.is_closed = False
     mock_resp_fail = MagicMock()
     mock_resp_fail.status_code = 500
-    mock_resp_fail.text = ""
-    mock_resp_fail.raise_for_status.side_effect = httpx.HTTPStatusError(
-        "fail", request=MagicMock(), response=mock_resp_fail)
-    mock_client.get.return_value = mock_resp_fail
+    mock_client.get = AsyncMock(side_effect=httpx.ConnectError("Connection refused"))
     llm._client = mock_client
 
-    ollama_resp = MagicMock()
-    ollama_resp.status_code = 200
-    ollama_client = MagicMock()
-    ollama_client.__aenter__ = AsyncMock(return_value=ollama_client)
-    ollama_client.__aexit__ = AsyncMock(return_value=None)
-    ollama_client.is_closed = False
-    ollama_client.get = AsyncMock(return_value=ollama_resp)
-
-    with patch.object(httpx, 'AsyncClient', return_value=ollama_client):
-        result = await llm._check_availability()
-    assert result is True
+    result = await llm._check_availability()
+    assert result is False
 
 
 
@@ -236,16 +224,6 @@ async def test_close_already_closed_client():
     llm._client = mock_client
     await llm.close()
     mock_client.aclose.assert_not_awaited()
-
-
-# ── format_chat_prompt 边界 ─────────────────────────────────
-
-def test_format_chat_prompt_special_chars():
-    from thinkvault.core.thinkvault_llm import format_chat_prompt
-    prompt = format_chat_prompt("System: <test>", "User: & more")
-    assert "System: <test>" in prompt
-    assert "User: & more" in prompt
-    assert prompt.endswith("<|start_header_id|>assistant<|end_header_id|>\n\n")
 
 
 if __name__ == "__main__":

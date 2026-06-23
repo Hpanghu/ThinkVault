@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-06-13 01:00:35",
+  "config": {
+    "scales": [
+      "1K",
+      "10K"
+    ],
+    "num_queries": 20,
+    "concurrency_levels": [
+      1,
+      4
+    ]
+  },
+  "scale_benchmarks": [
+    {
+      "scale": "1K",
+      "chunk_count": 1000,
+      "num_queries": 20,
+      "avg_ms": 58.76295503694564,
+      "p50_ms": 59.05380053445697,
+      "p90_ms": 89.76080035790801,
+      "p95_ms": 110.13670079410076,
+      "p99_ms": 110.13670079410076,
+      "max_ms": 110.13670079410076,
+      "min_ms": 34.580199513584375,
+      "qps": 76.24999478495774,
+      "avg_embed_ms": 28.2701050164178,
+      "avg_vector_ms": 24.52962005045265,
+      "avg_bm25_ms": 5.872349999845028,
+      "avg_rrf_ms": 0.09087997023016214,
+      "avg_rerank_ms": 0,
+      "cold_start_ms": 2862.300300039351,
+      "bm25_build_ms": 539.4715997390449
+    },
+    {
+      "scale": "10K",
+      "chunk_count": 10000,
+      "num_queries": 20,
+      "avg_ms": 54.79496994521469,
+      "p50_ms": 62.62509943917394,
+      "p90_ms": 72.48920015990734,
+      "p95_ms": 74.4276000186801,
+      "p99_ms": 74.4276000186801,
+      "max_ms": 74.4276000186801,
+      "min_ms": 34.11840042099357,
+      "qps": 65.84958311806335,
+      "avg_embed_ms": 24.651680001989007,
+      "avg_vector_ms": 23.03983997553587,
+      "avg_bm25_ms": 7.0329450070858,
+      "avg_rrf_ms": 0.07050496060401201,
+      "avg_rerank_ms": 0,
+      "cold_start_ms": 4259.676000103354,
+      "bm25_build_ms": 3605.976500082761
+    }
+  ],
+  "concurrency_benchmarks": [
+    {
+      "concurrency": 1,
+      "num_queries": 40,
+      "avg_ms": 38.655137561727315,
+      "p95_ms": 65.0988002307713,
+      "qps": 25.789437241045338,
+      "error_count": 0
+    },
+    {
+      "concurrency": 4,
+      "num_queries": 40,
+      "avg_ms": 71.57733993371949,
+      "p95_ms": 96.27470001578331,
+      "qps": 52.40913662549793,
+      "error_count": 0
+    }
+  ],
+  "rerank_analysis": {
+    "rerank_available": false,
+    "avg_without_rerank_ms": 232.38479001447558,
+    "note": "Cross-encoder 模型不可用，无法测试 rerank 开销"
+  }
+}

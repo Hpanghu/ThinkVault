@@ -19,23 +19,13 @@ class TestThinkVaultLLM:
     def test_init_not_loaded(self, llm):
         """初始化时 is_loaded 为 False，base_url/model 正确设置"""
         assert llm.is_loaded is False
-        assert llm.base_url == "http://localhost:11434/v1"
-        assert llm.model == "llama3.2:1b"
+        assert llm.base_url == "http://localhost:8080/v1"
+        assert llm.model == "default"
 
     def test_load_is_noop(self, llm):
         """load() 在 HTTP 模式下为无操作，始终返回 True"""
         result = llm.load("any_path.gguf")
         assert result is True
-
-    def test_format_chat_prompt(self):
-        from thinkvault.core.thinkvault_llm import format_chat_prompt
-        prompt = format_chat_prompt("你是一个助手", "你好")
-        assert "<|begin_of_text|>" in prompt
-        assert "<|start_header_id|>system<|end_header_id|>" in prompt
-        assert "你是一个助手" in prompt
-        assert "<|start_header_id|>user<|end_header_id|>" in prompt
-        assert "你好" in prompt
-        assert "<|start_header_id|>assistant<|end_header_id|>" in prompt
 
     def test_build_messages(self):
         from thinkvault.core.thinkvault_llm import _build_messages
@@ -60,20 +50,18 @@ class TestThinkVaultLLM:
         assert llm.is_loaded is False
 
     def test_generate_async_without_backend(self, llm):
-        """无后端时 generate_async 返回错误提示而非崩溃"""
+        """无后端时 generate 抛出 LLMServiceError 而非返回错误字符串"""
         import asyncio
-        from thinkvault.core.thinkvault_llm import _build_messages
+        from thinkvault.core.thinkvault_llm import _build_messages, LLMServiceError
 
         async def run():
             messages = _build_messages("system", [], "test")
             answer, stats = await llm.generate(messages, max_new_tokens=32)
             return answer, stats
 
-        answer, stats = asyncio.run(run())
-        assert isinstance(answer, str)
-        assert isinstance(stats, dict)
-        # 无后端时应返回连接错误提示
-        assert "[错误]" in answer or "error" in stats
+        with pytest.raises(LLMServiceError) as exc_info:
+            asyncio.run(run())
+        assert exc_info.value.error_type == "connection_refused"
 
 
 if __name__ == "__main__":

@@ -38,12 +38,16 @@ def test_get_bm25_success():
             "documents": ["文档一 内容", "文档二 内容"],
         }
         mock_ctr.vector_store.get_or_create_collection.return_value = mock_collection
+        mock_ctr.vector_store.get_chunk_count.return_value = 2
 
         result = r._get_bm25("test_kb")
         assert result is not None
-        bm25, doc_texts, doc_ids = result
+        # 5-tuple: (bm25, doc_texts, doc_ids, doc_metadatas, engine)
+        assert len(result) == 5
+        bm25, doc_texts, doc_ids, doc_metadatas, engine = result
         assert doc_texts == ["文档一 内容", "文档二 内容"]
         assert doc_ids == ["id1", "id2"]
+        assert engine in ("bm25s", "rank_bm25")
 
 
 def test_get_bm25_empty_collection():
@@ -68,7 +72,7 @@ def test_bm25_search_with_results():
     with patch.object(r, "_get_bm25") as mock_get:
         mock_bm25 = MagicMock()
         mock_bm25.get_scores.return_value = np.array([0.5, 2.0, 0.0])
-        mock_get.return_value = (mock_bm25, ["doc0", "doc1", "doc2"], ["id0", "id1", "id2"])
+        mock_get.return_value = (mock_bm25, ["doc0", "doc1", "doc2"], ["id0", "id1", "id2"], [{}, {}, {}], "rank_bm25")
 
         result = r._bm25_search("test query", "test_kb", top_k=3)
         assert len(result) == 2
@@ -83,7 +87,7 @@ def test_bm25_search_no_positive_scores():
     with patch.object(r, "_get_bm25") as mock_get:
         mock_bm25 = MagicMock()
         mock_bm25.get_scores.return_value = np.array([0.0, 0.0])
-        mock_get.return_value = (mock_bm25, ["d0", "d1"], ["i0", "i1"])
+        mock_get.return_value = (mock_bm25, ["d0", "d1"], ["i0", "i1"], [{}, {}], "rank_bm25")
 
         result = r._bm25_search("xxx", "kb", 5)
         assert result == []
