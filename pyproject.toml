@@ -50,9 +50,10 @@ ocr = ["rapidocr-onnxruntime>=1.3.0"]
 ppt = ["python-pptx>=0.6.0"]
 excel = ["openpyxl>=3.1.0"]
 media = ["faster-whisper>=1.0.0", "ffmpeg-python>=0.2.0"]
+markitdown = ["markitdown[all]>=1.0.0"]
 dev = ["pytest>=8.0", "requests>=2.31"]
 # 全部可选依赖（不含 gpu，需手动安装 CUDA torch）
-all = ["thinkvault[local-embedding,ocr,ppt,excel,media]"]
+all = ["thinkvault[local-embedding,ocr,ppt,excel,media,markitdown]"]
 
 [project.scripts]
 thinkvault = "thinkvault.cli:main"

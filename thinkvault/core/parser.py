@@ -87,21 +87,32 @@ class DocumentParser:
             )
 
         if suffix == ".pdf":
-            return cls._parse_pdf(file_path, path)
+            result = cls._parse_pdf(file_path, path)
         elif suffix == ".docx":
-            return cls._parse_docx(file_path, path)
+            result = cls._parse_docx(file_path, path)
         elif suffix == ".pptx":
-            return cls._parse_pptx(file_path, path)
+            result = cls._parse_pptx(file_path, path)
         elif suffix in (".xlsx", ".xlsm"):
-            return cls._parse_xlsx(file_path, path)
+            result = cls._parse_xlsx(file_path, path)
         elif suffix in (".txt",):
-            return cls._parse_txt(file_path, path)
+            result = cls._parse_txt(file_path, path)
         elif suffix in (".md", ".markdown"):
-            return cls._parse_markdown(file_path, path)
+            result = cls._parse_markdown(file_path, path)
         elif suffix in AUDIO_EXTENSIONS:
-            return cls._parse_audio(file_path, path)
+            result = cls._parse_audio(file_path, path)
         elif suffix in VIDEO_EXTENSIONS:
-            return cls._parse_video(file_path, path)
+            result = cls._parse_video(file_path, path)
+        else:
+            result = ParsedDocument(
+                file_path=file_path,
+                file_name=path.name,
+                file_type=suffix,
+                parse_error=f"未处理的文件格式: {suffix}",
+            )
+
+        # MarkItDown 补充解析：根据模式决定是否用 MarkItDown 替换/兜底
+        from thinkvault.core import markitdown_adapter
+        return markitdown_adapter.convert_with_fallback(file_path, result)
 
     @classmethod
     def _parse_pdf(cls, file_path: str, path: Path) -> ParsedDocument:
